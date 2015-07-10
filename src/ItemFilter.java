@@ -128,8 +128,21 @@ public class ItemFilter {
 						}
 						
 					/*========== BaseType ==========*/
-					} else if (cmd.compareTo("BaseType") == 0){
-						items.get(items.size()-1).setBaseType(attribute);
+					} else if (cmd.compareTo("BaseType") == 0){						
+						attribute.trim();
+						
+						while(true){
+							String temp = attribute.substring(1,attribute.substring(1).indexOf('\"')+1);
+							
+							items.get(items.size()-1).addBaseType(temp);
+							
+							if(attribute.length() >= temp.length()+3){
+								attribute = attribute.substring(temp.length()+3);
+								attribute.trim();
+							}
+							else
+								break;
+						}
 						
 					/*========== Sockets ==========*/
 					} else if (cmd.compareTo("Sockets") == 0){
@@ -198,7 +211,7 @@ public class ItemFilter {
 							}
 						}
 						
-						items.get(items.size()-1).setBoarderColor(temp);
+						items.get(items.size()-1).setBorderColor(temp);
 						
 					/*========== SetBackgroundColor ==========*/
 					} else if (cmd.compareTo("SetBackgroundColor") == 0){
@@ -275,10 +288,137 @@ public class ItemFilter {
 			FileWriter file = new FileWriter(this.path + fileName + ".txt");
 			writer = new BufferedWriter(file);
 			
-			writer.write("FooBar2");
+			writer.write("##########################################################################\n");
+			writer.write("### Filter created with PEIF (Poe Easy Item Filter) version: " + PeoEasyItemFilter.version + " #########\n");
+			writer.write("##########################################################################\n\n");
+			
+			for(Item item : this.items){
+				//Show_Hide
+				if(item.show) writer.write("Show\n");
+				else writer.write("Hide\n");
+				
+				//Class
+				if(item.getItemClass().size() > 0){
+					writer.write("\tClass");
+					for(String temp : item.getItemClass()){
+						writer.write(" \"" + temp + "\"");
+					}
+					writer.write("\n");
+				}
+				
+				//BaseType
+				if(item.getBaseType().size() > 0){
+					writer.write("\tBaseType");
+					for(String temp : item.getBaseType()){
+						writer.write(" \"" + temp + "\"");
+					}
+					writer.write("\n");
+				}
+				
+				//Rarity
+				if(item.getRarity() != null){
+					writer.write("\tRarity ");
+					if(item.getRarityCond() != null) writer.write(item.getRarityCond() +" ");
+					writer.write(item.getRarity().toString().substring(0, 1) + item.getRarity().toString().substring(1).toLowerCase() + "\n");
+				}
+				
+				//ItemLevel
+				if(item.getItemLevel() > -1 ){
+					writer.write("\tItemLevel ");
+					if(item.getItemLevelCond() != null) writer.write(item.getItemLevelCond() + " ");
+					writer.write(item.getItemLevel() + "\n");
+				}
+				
+				//DropLevel
+				if(item.getDropLevel() > -1){
+					writer.write("\tDropLevel ");
+					if(item.getDropLevelCond() != null) writer.write(item.getDropLevelCond() + " ");
+					writer.write(item.getDropLevel() + "\n");
+				}
+				
+				//Quality
+				if(item.getQuality() > -1){
+					writer.write("\tQuality ");
+					if(item.getQualityCond() != null) writer.write(item.getQualityCond() + " ");
+					writer.write(item.getQuality() + "\n");
+				}
+				
+				//Sockets
+				if(item.getSockets() > -1){
+					writer.write("\tSockets ");
+					if(item.getSocketsCond() != null) writer.write(item.getSocketsCond() + " ");
+					writer.write(item.getSockets() + "\n");
+				}
+				
+				//LinkedSockets
+				if(item.getLinkedSockets() > -1){
+					writer.write("\tLinkedSockets ");
+					if(item.getLinkedSocketsCond() != null) writer.write(item.getLinkedSocketsCond() + " ");
+					writer.write(item.getLinkedSockets() + "\n");
+				}
+				
+				//SocketGroup
+				if(item.getSocketGroup() != null) writer.write("\tSocketGro " + item.getSocketGroup() + "\n");
+				
+				//Height
+				if(item.getHeight() > -1){
+					writer.write("\tHeight ");
+					if(item.getHeightCond() != null) writer.write(item.getHeightCond() + " ");
+					writer.write(item.getHeight() + "\n");
+				}
+				
+				//Width
+				if(item.getWidth() > -1){
+					writer.write("\tWidth ");
+					if(item.getWidthCond() != null) writer.write(item.getWidthCond() + " ");
+					writer.write(item.getWidth() + "\n");
+				}
+				
+				//SetBorderColor
+				if(item.getBorderColor()[0] > -1){
+					writer.write("\tSetBorderColor ");
+					for(int i : item.getBorderColor()){
+						if(i > -1) writer.write(i + " ");
+					}
+					writer.write("\n");
+				}
+				
+				//SetBackgroundColor
+				if(item.getBackgroundColor()[0] > -1){
+					writer.write("\tSetBackgroundColor ");
+					for(int i : item.getBackgroundColor()){
+						if(i > -1) writer.write(i + " ");
+					}
+					writer.write("\n");
+				}
+				
+				//SetTextColor
+				if(item.getTextColor()[0] > -1){
+					writer.write("\tSetTextColor ");
+					for(int i : item.getTextColor()){
+						if(i > -1) writer.write(i + " ");
+					}
+					writer.write("\n");
+				}
+				
+				//SetFontSize
+				if(item.getFontSize() > -1) writer.write("\tSetFontSize " + item.getFontSize() + "\n");
+				
+				//PlayAlertSound
+				if(item.getSound() > -1){
+					writer.write("\tPlayAlertSound " + item.getSound());
+					if(item.getSoundVolume() > -1) writer.write(" " + item.getSoundVolume());
+					writer.write("\n");
+				}
+				
+				writer.write("\n");
+			}
+			
+			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			try{			
 				writer.close();

@@ -15,7 +15,7 @@ public class Item {
 	Rarity rarity = null;
 	String rarityCond = null;
 	ArrayList<String> itemClass = new ArrayList<String>();
-	String baseType = null;
+	ArrayList<String> baseType = new ArrayList<String>();
 	int sockets = -1;
 	String socketsCond = null;
 	int linkedSockets = -1;
@@ -26,7 +26,7 @@ public class Item {
 	int width = -1;
 	String widthCond = null;
 	
-	int[] boarderColor = {-1,-1,-1,-1};
+	int[] borderColor = {-1,-1,-1,-1};
 	int[] backgroundColor = {-1,-1,-1,-1};
 	int[] textColor = {-1,-1,-1,-1};
 	int fontSize = -1;
@@ -104,11 +104,14 @@ public class Item {
 		this.itemClass.add(itemClass);
 	}
 
-	public String getBaseType() {
+	public ArrayList<String> getBaseType() {
 		return baseType;
 	}
-	public void setBaseType(String baseType) {
+	public void setBaseType(ArrayList<String> baseType) {
 		this.baseType = baseType;
+	}
+	public void addBaseType(String baseType){
+		this.baseType.add(baseType);
 	}
 	public int getSockets() {
 		return sockets;
@@ -178,11 +181,11 @@ public class Item {
 	public void setShow(boolean show) {
 		this.show = show;
 	}
-	public int[] getBoarderColor() {
-		return boarderColor;
+	public int[] getBorderColor() {
+		return borderColor;
 	}
-	public void setBoarderColor(int[] boarderColor) {
-		this.boarderColor = boarderColor;
+	public void setBorderColor(int[] boarderColor) {
+		this.borderColor = boarderColor;
 	}
 	public int[] getBackgroundColor() {
 		return backgroundColor;
