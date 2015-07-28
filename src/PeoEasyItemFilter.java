@@ -5,6 +5,7 @@ public class PeoEasyItemFilter {
 	public static String version = "0.1";
 
 	public static void main(String[] args) {
+		/*
 		//Item Filter Testing
 		String defaultFolder = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
 		
@@ -14,8 +15,9 @@ public class PeoEasyItemFilter {
 		System.out.println(filt1.getItems().size());
 		
 		if(filt1.write("test")) System.out.println("Wrote the test file");
+		*/
 		
-		//GUI Testing
-		
+		//Gui Testing
+		new Gui().launch(Gui.class);
 	}
 }
